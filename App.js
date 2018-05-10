@@ -2,23 +2,58 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 
 const buttonsName = [
-  'c', '+/-', '%', 'D', '7', 
-  '8', '9', '/', '4', '5', '6', 
-  'X', '1', '2', '3', '-', '0', 
+  'c', '+/-', '%', 'D', '7',
+  '8', '9', '/', '4', '5', '6',
+  'X', '1', '2', '3', '-', '0',
   ',', '=', '+',
 ];
+
 export default class App extends React.Component {
+  state = {
+    value: null,
+    displayValue: '0',
+    operator: null,
+    waitingForOperand: false,
+    displayFormula: 0,
+  };
+
+  clearValues = () => {
+    this.setState({
+      value: null,
+      displayValue: '0',
+      operator: null,
+      waitingForOperand: false,
+      displayFormula: 0,
+    })
+  }
+  _onInputClick(digit) {
+    const {displayValue, operator} = this.state;
+    if (this.state.waitingForOperand) {
+      this.setState({
+         displayValue: `${digit}`,
+         waitingForOperand: false
+      })
+     }
+    this.setState({
+      displayValue: displayValue === '0' ? `${digit}` : displayValue + digit,
+      displayFormula: `${displayValue} ${operator} ${digit}`,
+    })
+   }
+
+   _onOperationClick(operation) {
+    console.log('hola');
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.calculatorHeader}> 
-          <Text style={styles.formula}>FORM</Text>
+        <View style={styles.calculatorHeader}>
+          <Text style={styles.formula}>hola</Text>
           <Text style={styles.result}>Result</Text>
         </View>
         <View style={styles.calculatorBody}>
           <View style={styles.buttonRow}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this.clearAll}>
               <Text style={styles.buttonText}>C</Text>
             </TouchableOpacity>
             <TouchableOpacity>
@@ -32,58 +67,58 @@ export default class App extends React.Component {
             </TouchableOpacity>
           </View>
           <View style={styles.buttonRow}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onInputClick(7)}>
               <Text style={styles.buttonText}>7</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onInputClick(8)}>
               <Text style={styles.buttonText}>8</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onInputClick(9)}>
               <Text style={styles.buttonText}>9</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onOperationClick('/')}>
               <Text style={[styles.buttonText, styles.buttonRed]}>/</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.buttonRow}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onInputClick(4)}>
               <Text style={styles.buttonText}>4</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onInputClick(5)}>
               <Text style={styles.buttonText}>5</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onInputClick(6)}>
               <Text style={styles.buttonText}>6</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onOperationClick('*')}>
               <Text style={[styles.buttonText, styles.buttonRed]}>X</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.buttonRow}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onInputClick(1)}>
               <Text style={styles.buttonText}>1</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onInputClick(2)}>
               <Text style={styles.buttonText}>2</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onInputClick(3)}>
               <Text style={styles.buttonText}>3</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onOperationClick('-')}>
               <Text style={[styles.buttonText, styles.buttonRed]}>-</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.buttonRow}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onInputClick(0)}>
               <Text style={styles.buttonText}>0</Text>
             </TouchableOpacity>
             <TouchableOpacity>
               <Text style={styles.buttonText}>,</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onOperationClick('=')}>
               <Text style={styles.buttonText}>=</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._onOperationClick('+')}>
               <Text style={[styles.buttonText, styles.buttonRed]}>+</Text>
             </TouchableOpacity>
           </View>
