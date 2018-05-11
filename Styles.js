@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-export default const styles = StyleSheet.create({
+var Styles = StyleSheet.create({
   container: {
     flex: 1,
   },
@@ -32,14 +32,8 @@ export default const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 0.5,
   },
   buttonRed: {
-    flex: 1,
-    width: 64,
-    height: 64,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'red',
   },
   buttonText: {
@@ -48,3 +42,5 @@ export default const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
+export default Styles;
