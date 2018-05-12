@@ -28,33 +28,33 @@ class App extends React.Component {
       });
     }
     if (typeof buttonKey == 'string') {
-      switch (buttonKey) {
-        case 'C':
-          this.setState({
-            formulaValue: '',
-            totalValue: 0,
+      if (buttonKey === 'C') {
+        console.log('C');
+        this.setState({
+          formulaValue: '',
+          totalValue: 0,
+          previousValue: 0,
+          symbol: null,
+        });
+      }
+      if (buttonKey === '/' || buttonKey === '*' || buttonKey === '+' || buttonKey === '-') {
+        console.log('-');
+        this.setState({
+          formulaValue: '',
+          totalValue: 0,
+          previousValue: 0,
+          symbol: null,
+        });
+      }
+      if (buttonKey === '=') {
+        console.log('=');
+        if (!this.state.symbol) return;
+        this.setState({
             previousValue: 0,
+            totalValue: eval(this.state.previousValue + this.state.symbol + this.state.totalValue),
             symbol: null,
-          })
-        case '/':
-        case '*':
-        case '+':
-        case '-':
-          this.setState({
-              symbol: buttonKey,
-              previousValue: this.state.totalValue,
-              totalValue: 0,
-              formulaValue: `${this.state.previousValue} ${this.state.symbol} ${this.state.totalValue}`
-          });
-        case '=':
-          if (!this.state.symbol) return;
-          this.setState({
-              previousValue: 0,
-              totalValue: eval(this.state.previousValue + this.state.symbol + this.state.totalValue),
-              symbol: null,
-              formulaValue: `${this.state.previousValue} ${this.state.symbol} ${this.state.totalValue}`,
-          });
-          break;
+            formulaValue: `${this.state.previousValue} ${this.state.symbol} ${this.state.totalValue}`,
+        });
       }
     }
   }
