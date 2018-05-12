@@ -14,17 +14,16 @@ const inputButtonsKey = [
 
 class App extends React.Component {
   state = {
-    totalValue: 0,
-    previousValue: 0,
-    symbol: null,
+    totalValue: '',
+    previousValue: '',
+    symbol: '',
     formulaValue: '',
   };
 
   handleButtonPressed = (buttonKey) => {
     if (typeof buttonKey == 'number') {
-      console.log('number');
       this.setState({
-        totalValue: (this.state.totalValue * 10) + buttonKey,
+        totalValue: buttonKey,
       });
     }
     if (typeof buttonKey == 'string') {
@@ -32,26 +31,29 @@ class App extends React.Component {
         case 'C':
           this.setState({
             formulaValue: '',
-            totalValue: 0,
-            previousValue: 0,
-            symbol: null,
+            totalValue: '',
+            previousValue: '',
+            symbol: '',
           })
+          break;
         case '/':
         case '*':
         case '+':
         case '-':
+          if (this.state.totalValue === '') return;
           this.setState({
               symbol: buttonKey,
               previousValue: this.state.totalValue,
-              totalValue: 0,
+              totalValue: '',
               formulaValue: `${this.state.previousValue} ${this.state.symbol} ${this.state.totalValue}`
           });
+          break;
         case '=':
           if (!this.state.symbol) return;
           this.setState({
-              previousValue: 0,
+              previousValue: '',
               totalValue: eval(this.state.previousValue + this.state.symbol + this.state.totalValue),
-              symbol: null,
+              symbol: '',
               formulaValue: `${this.state.previousValue} ${this.state.symbol} ${this.state.totalValue}`,
           });
           break;
@@ -61,21 +63,21 @@ class App extends React.Component {
 
   _getInputsButtons() {
     let views = [];
-    for (var buttonKey = 0; buttonKey < inputButtonsKey.length; buttonKey ++) {
-      let row = inputButtonsKey[buttonKey];
+    inputButtonsKey.map((buttonKey, index) => {
+      let rows = buttonKey;
       let inputRow = [];
-      for (var i = 0; i < row.length; i ++) {
-        let input = row[i];
+      rows.map((row, indexRow)=> {
+        let input = row;
         inputRow.push(
           <InputButton
             value={input}
-            key={`${buttonKey}-${i}`}
+            key={`${index}-${indexRow}`}
             onButtonPressed={this.handleButtonPressed}
           />
         );
-      }
-      views.push(<View style={Styles.buttonRow} key={`row-${buttonKey}`}>{inputRow}</View>)
-    }
+      })
+      views.push(<View style={Styles.buttonRow} key={`row-${index}`}>{inputRow}</View>)
+    })
     return views;
   }
 
